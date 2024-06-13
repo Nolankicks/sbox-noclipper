@@ -1,0 +1,100 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@using System.Threading.Tasks;
+@inherits PanelComponent
+
+<root>
+	<div class="mapselect" style="opacity: @(ShowMapSelect ? 1 : 0)">
+		<PackageList ShowFilters="@true" Query="type:map sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList>
+	</div>
+	<div class="lobbylist">
+		<div class="header">LOBBIES</div>
+		@if (Refreshing)
+		{
+			<div class="lobby">REFRESHING...</div>
+		}
+		else if (Lobbies.Count == 0)
+		{
+			<div class="lobby">NO LOBBIES FOUND, CREATE YOUR OWN</div>
+		}
+		else
+		{
+		@foreach (var lobby in Lobbies)
+		{
+			<div class="lobby" onclick=@(() => OpenLobby(lobby))>
+				<div class="name">@lobby.Map</div>
+				<div class="players">@lobby.Members</div>
+			</div>
+		}
+		}
+	</div>
+	<div class="createlobby" onclick=@(() => ShowMapSelect = !ShowMapSelect)>CREATE LOBBY</div>
+	<div class="firstperson" onclick=@SetFirstPerson>
+		@if (IsFirstPerson)
+		{
+			<div>FIRST PERSON</div>
+		}
+		else
+		{
+			<div>THIRD PERSON</div>
+		}
+	</div>
+	
+</root>
+
+@code
+{
+
+	[Property] public SceneFile SceneFile { get; set; }
+	[Property] public bool ShowMapSelect { get; set; } = false;
+	public List<LobbyInformation> Lobbies { get; set; } = new();
+	public bool PrivateLobby = false;
+	[Property] public bool Refreshing { get; set; }
+	public bool IsFirstPerson { get; set; } = false;
+
+	protected override void OnStart()
+	{
+		_ = FetchLobbies();
+		FileSystem.Data.WriteAllText("firstperson.txt", IsFirstPerson.ToString());
+		FileSystem.Data.WriteAllText("private.txt", PrivateLobby.ToString());
+	}
+
+
+	void OnPackageSelected(Package package)
+	{
+		LaunchArguments.Map = package.FullIdent;
+		Game.ActiveScene.Load(SceneFile);
+	}
+	public void SetFirstPerson()
+	{
+		IsFirstPerson = !IsFirstPerson;
+		FileSystem.Data.WriteAllText("firstperson.txt", IsFirstPerson.ToString());
+	}
+	public void SetPrivate()
+	{
+		PrivateLobby = !PrivateLobby;
+		FileSystem.Data.WriteAllText("private.txt", PrivateLobby.ToString());
+	}
+	public async Task FetchLobbies()
+	{
+		while (true)
+		{
+			Refreshing = true;
+			StateHasChanged();
+			Lobbies = await Networking.QueryLobbies();
+			Refreshing = false;
+			StateHasChanged();
+			await GameTask.DelayRealtimeSeconds(5);
+		}
+	}
+	void OpenLobby( LobbyInformation lobby )
+    {
+        GameNetworkSystem.Connect( lobby.LobbyId );
+    }
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( ShowMapSelect, Refreshing );
+}

@@ -1,0 +1,164 @@
+Menu
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	pointer-events: all;
+	color: white;
+	.title
+	{
+		font-size: 25px;
+		font-family: Poppins;
+		color: #fff;
+	}
+
+	.mapselect
+	{
+		width: 90%;
+		height: 90%;
+		transition: opacity 0.1s ease;
+		color: white;
+		z-index: 10000;
+		backdrop-filter: blur(32px);
+	}
+
+	.lobbylist
+	{
+		font-family: Poppins;
+		position: absolute;
+		left: 12px;
+		backdrop-filter: blur(32px);
+		width: 500px;
+		border-radius: 16px;
+		height: 95%;
+		box-shadow: 16px 16px 32px rgba(0, 0, 0, 0.5);
+		flex-direction: column;
+		align-items: center;
+		>.header
+		{
+			width: 100%;
+			height: 200px;
+			font-size: 64px;
+			font-weight: bolder;
+			align-items: center;
+			justify-content: center;
+		}
+		.lobby
+		{
+			width: 95%;
+			height: 100px;
+			background-color: rgba(255, 255, 255, 0.1);
+			border-radius: 16px;
+			margin-top: 16px;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 16px;
+			padding: 16px;
+			transition: background-color 0.1s ease;
+			transition: all 0.1s ease;
+			flex-direction: row;
+			&:hover
+			{
+				background-color: rgba(255, 255, 255, 0.2);
+				sound-in: ui.button.over;
+			}
+			&:active
+			{
+				background-color: rgba(255, 255, 255, 0.3);
+				sound-in: ui.button.press;
+			}
+			>.name
+			{
+				width: 100px;
+				height: 100%;
+				align-items: center;
+				justify-content: center;
+				font-size: 32px;
+				min-width: 0;
+				flex: 1 1 auto;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			>.players
+			{
+				width: 200px;
+				height: 100%;
+				align-items: center;
+				justify-content: center;
+				font-size: 32px;
+				margin-left: auto;
+				min-width: 0;
+				flex: 1 1 auto;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			
+		}
+	}
+
+	.createlobby
+	{
+		align-items: center;
+		font-family: poppins;
+		font-weight: bolder;
+		justify-content: center;
+		position: absolute;
+		right: 12px;
+		font-size: 64px;
+		width: 500px;
+		height: 500px;
+		backdrop-filter: blur(32px);
+		border-radius: 16px;
+		box-shadow: 16px 16px 32px rgba(0, 0, 0, 0.5);
+		transition: all 0.1s ease;
+		flex-direction: column;
+		&:hover
+		{
+			background-color: rgba(255, 255, 255, 0.2);
+			sound-in: ui.button.over;
+		}
+		&:active
+		{
+			background-color: rgba(255, 255, 255, 0.3);
+			sound-in: ui.button.press;
+		}
+	}
+.firstperson
+{
+	transition: all 0.1s ease;
+    position: absolute;
+	bottom: 32px;
+	right: 32px;
+    width: 200px;
+    height: 200px;
+    backdrop-filter: blur(32px);
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    transition: all 0.1s ease;
+    &:hover
+    {
+        background-color: rgba(255, 255, 255, 0.2);
+		sound-in: ui.button.over;
+    }
+	&:active
+		{
+			background-color: rgba(255, 255, 255, 0.3);
+			sound-in: ui.button.press;
+		}
+}
+
+}
