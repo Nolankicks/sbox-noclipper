@@ -9,7 +9,19 @@ public sealed class NoClip : Component
 	[Property, Sync] public bool FirstPerson { get; set; } = true;
 	[Property, Sync] public int DistanceFromCamera { get; set; } = 200;
 	[Property] public CitizenAnimationHelper AnimationHelper { get; set; }
+	[Property] public float RunSpeed { get; set; } = 2000;
 
+	public float GetSpeed()
+	{
+		if (Input.Down("run"))
+		{
+			return RunSpeed;
+		}
+		else
+		{
+			return MoveSpeed;
+		}
+	}
 	protected override void OnStart()
 	{
 		if (!IsProxy)
@@ -62,7 +74,7 @@ public sealed class NoClip : Component
 	public void Move()
 	{
 		WishVelocity = new Angles(EyeAngles.pitch, EyeAngles.yaw, 0).ToRotation() * Input.AnalogMove.Normal;
-		WishVelocity *= MoveSpeed;
+		WishVelocity *= GetSpeed();
 		if (!WishVelocity.IsNearlyZero())
 		{
 			Transform.Position += WishVelocity * Time.Delta;
