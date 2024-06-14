@@ -60,7 +60,7 @@
 	public List<LobbyInformation> Lobbies { get; set; } = new();
 	public bool StartServer = true;
 	[Property] public bool Refreshing { get; set; }
-	public bool IsFirstPerson { get; set; } = false;
+	public bool IsFirstPerson { get; set; } = true;
 
 	protected override void OnStart()
 	{

@@ -27,10 +27,16 @@ public sealed class NoClip : Component
 
 	protected override void OnUpdate()
 	{
+		BodyVis();
 		if (!IsProxy)
 		{
 			BuildEyeAngles();
 			Camera();
+			if (Input.Pressed("3rd/1st Person Toggle"))
+			{
+				FirstPerson = !FirstPerson;
+				FileSystem.Data.WriteAllText("firstperson.txt", FirstPerson.ToString());
+			}
 		}
 	}
 
@@ -38,7 +44,6 @@ public sealed class NoClip : Component
 	{
 		Anims();
 		AnimationHelper.Target.Transform.Rotation = Rotation.Slerp(AnimationHelper.Target.Transform.Rotation, new Angles(0, EyeAngles.yaw, 0).ToRotation(), Time.Delta * 10);
-		BodyVis();
 		if (!IsProxy)
 		{
 			Move();
