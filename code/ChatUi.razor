@@ -1,0 +1,98 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@inherits PanelComponent
+@implements Component.INetworkListener
+
+<root style="opacity: @(GameNetworkSystem.IsActive ? 1 : 0);">
+		<div class="chat">
+		<div class="chatholder">
+			@foreach (var chat in chatEntries)
+			{
+				<div class="message">
+					<div class="message-name">@chat.sender</div>
+					@if (chat.steamID != 0)
+					{
+						<div class="message-avatar">
+							<img class="avatar" texture=@AvatarTexture(chat.steamID) />
+						</div>
+					}
+				<div class="message-text">@chat.message</div>
+					
+				</div>
+			}
+		</div>
+		<div class="input">
+			<TextEntry @ref=chatEntry Placeholder="Chat..." onsubmit=@SubmitChat />
+		</div>
+	</div>
+</root>
+
+@code
+{
+	public record ChatEntry(ulong steamID, string sender, string message, RealTimeSince timeSince);
+	TextEntry chatEntry = new();
+	[Property] List<ChatEntry> chatEntries = new();
+
+	protected override void OnUpdate()
+	{
+		if (chatEntry is null) return;
+		Panel.AcceptsFocus = false; 
+
+		if (Input.Pressed("chat"))
+		{
+			chatEntry.Focus();
+		}
+		SetClass("open", chatEntry.HasFocus);
+	}
+
+	public void SubmitChat()
+	{
+		var message = chatEntry.Text;
+		chatEntry.Text = "";
+		if (string.IsNullOrWhiteSpace(message)) return;
+		AddText(message);
+	}
+
+	[Broadcast]
+	public void AddText(string text)
+	{
+		text = text.Truncate(256);
+		if (string.IsNullOrWhiteSpace(text)) return;
+		var sender = Rpc.Caller.DisplayName;
+		var steamId = Rpc.Caller.SteamId;
+		chatEntries.Add(new ChatEntry(steamId, sender, $"{text}", 0));
+		StateHasChanged();
+	}
+	[Broadcast]
+	public void AddSystemText(string text)
+	{
+		text = text.Truncate(256);
+		if (string.IsNullOrWhiteSpace(text)) return;
+		chatEntries.Add(new ChatEntry(0, "System", text, 0));
+		StateHasChanged();
+	}
+
+	public string AvatarTexture(ulong steamid)
+	{
+		return $"avatar:{steamid}";
+	}
+
+	void INetworkListener.OnConnected(Sandbox.Connection conn)
+	{
+		if (IsProxy) return;
+		AddSystemText($"{conn.DisplayName} connected");
+	}
+
+	void INetworkListener.OnDisconnected(Sandbox.Connection conn)
+	{
+		if (IsProxy) return;
+		AddSystemText($"{conn.DisplayName} disconnected");
+	}
+
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( chatEntries );
+}

@@ -1,0 +1,50 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root style="opacity: @(ShowMenu ? 1 : 0);">
+	<div class="header">PAUSED</div>
+
+		<div class="mapselect" style="opacity: @(ShowMapSelect && Networking.IsHost ? 1 : 0);">
+			<PackageList ShowFilters="@true" Query="type:map sort:trending" OnSelected="@OnSelected" Take=@(50)/>
+		</div>
+		@if (Networking.IsHost)
+		{
+			<div class="changemapbutton" onclick=@(() => ShowMapSelect = !ShowMapSelect)>Change map</div>
+		}
+		<div class="buttonholder">
+			<div class="button" onclick=@(() => { ShowMapSelect = false; ShowMenu = false; })>Resume</div>
+			<div class="button" onclick=@(() => Game.Overlay.ShowBinds())>Options</div>
+			<div class="button" onclick=@(() => Game.ActiveScene.Load(MenuScene))>Back To Menu</div>
+			<div class="button" onclick=@(() => Game.Close())>Quit</div>
+		</div>
+</root>
+
+@code
+{
+
+	[Property] public bool ShowMenu { get; set; } = false;
+	[Property] public bool ShowMapSelect { get; set; } = false;
+	[Property] public MapChanger MapChanger { get; set; }
+	[Property] public SceneFile MenuScene { get; set; }
+
+	protected override void OnUpdate()
+	{
+		if (Input.EscapePressed && !IsProxy)
+		{
+			Input.EscapePressed = false;
+			ShowMenu = !ShowMenu;
+		}
+	}
+
+	public void OnSelected(Package package)
+	{
+		if (!Networking.IsHost) return;
+		MapChanger.LoadMap(package.FullIdent);
+	}
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( ShowMenu, ShowMapSelect, Networking.IsHost );
+}

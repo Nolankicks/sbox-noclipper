@@ -1,0 +1,98 @@
+ChatUi
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	border-radius: 20px;
+
+	&.open
+	{
+		pointer-events: all;
+	}
+
+	.chat
+	{
+		position: absolute;
+		left: 12px;
+		bottom: 12px;
+		flex-grow: 1;
+		align-items: center;
+		justify-content: center;
+		width: 500px;
+		height: 500px;
+		//background-color: rgba(105, 105, 105, 0.753);
+		border-radius: 16px;
+		//backdrop-filter: blur(20px);
+		padding: 16px;
+		flex-direction: column;
+
+		.chatholder
+		{
+			flex-grow: 1;
+			width: 100%;
+			flex-direction: column;
+			justify-content: flex-end;
+			overflow: scroll;
+			gap: 5px;
+		}
+
+
+		.input
+		{
+
+			width: 100%;
+			height: 50px;
+			background-color: rgba(105, 105, 105, 0.753);
+			border-radius: 16px;
+			align-items: center;
+			backdrop-filter: blur(20px);
+			padding: 16px;
+			margin: 16px;
+			font-size: 24px;
+			color: white;
+		}
+		.message {
+			display: flex;
+			font-family: Poppins;
+			align-items: center;
+			justify-content: flex-start;
+			width: 400px;
+			min-height: 100px;
+			background-color: rgba(105, 105, 105, 0.753);
+			border-radius: 16px;
+			backdrop-filter: blur(20px);
+			padding: 16px;
+			margin: 16px;
+			transition: all 0.1s ease;
+		}
+		
+		.message-name {
+			font-size: 24px;
+			color: white;
+			width: 100px;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.message-content {
+			flex-grow: 1;
+			font-size: 24px;
+			color: white;
+			align-items: center;
+			justify-content: center;
+		}
+		
+		.avatar {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			margin-right: 16px;
+		}
+		
+}
+}

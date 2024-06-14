@@ -1,5 +1,5 @@
 {
-  "__guid": "f590e74a-2e64-4ce9-9fd5-9228d9d211bf",
+  "__guid": "60b83a12-d1b8-4d5b-aa01-54fde83f08cb",
   "GameObjects": [
     {
       "__guid": "d7ee1c1d-3fe8-4de8-b780-0359e9f384ce",
@@ -12,7 +12,7 @@
         {
           "__type": "Sandbox.MapInstance",
           "__guid": "acafa532-21f5-42dc-8835-8ca107535c5a",
-          "MapName": "xenthio.cornell_box",
+          "MapName": "facepunch.flatgrass",
           "UseMapFromLaunch": true
         }
       ],
@@ -33,7 +33,8 @@
           "Player": {
             "_type": "gameobject",
             "go": "1b881c2e-9dd0-4e13-b14e-7e7f8aced716"
-          }
+          },
+          "StartServer": true
         }
       ]
     },
@@ -152,6 +153,87 @@
           "ZNear": 10
         }
       ]
+    },
+    {
+      "__guid": "51234294-8e8a-44f2-9a6c-85429bd9beac",
+      "Flags": 0,
+      "Name": "Screen",
+      "Position": "-383.8876,-373.6562,301.9124",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "Components": [
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "4e4728cd-9bf6-4522-b0eb-0e11b224c6ee",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "TabUi",
+          "__guid": "0d28f119-8a1e-425a-9445-1823391cb248"
+        },
+        {
+          "__type": "PauseMenu",
+          "__guid": "881d0417-732e-4309-9c50-c4ff00758a48",
+          "MapChanger": {
+            "_type": "component",
+            "component_id": "3d2da789-07f8-47e4-bba8-d320815c3383",
+            "go": "47545aa0-8e12-4bce-9257-1715c827bdc6",
+            "component_type": "MapChanger"
+          },
+          "ShowMapSelect": false,
+          "ShowMenu": false
+        }
+      ]
+    },
+    {
+      "__guid": "9e6a09d6-fef4-4d05-a161-6ff88bc50bee",
+      "Flags": 0,
+      "Name": "Screen",
+      "Position": "-395.6841,-303.0179,304.4764",
+      "Enabled": true,
+      "NetworkMode": 1,
+      "NetworkInterpolation": true,
+      "Components": [
+        {
+          "__type": "Sandbox.ScreenPanel",
+          "__guid": "28675036-a953-4325-8d74-be72162f1e4b",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 0
+        },
+        {
+          "__type": "ChatUi",
+          "__guid": "1a7d1961-1c5b-4d1c-ae2e-ed61a2701d30",
+          "chatEntries": [],
+          "MyStringValue": "Hello World!"
+        }
+      ]
+    },
+    {
+      "__guid": "47545aa0-8e12-4bce-9257-1715c827bdc6",
+      "Flags": 0,
+      "Name": "MapChanger",
+      "Position": "-348.9477,-442.7989,305.0185",
+      "Enabled": true,
+      "NetworkMode": 1,
+      "NetworkInterpolation": true,
+      "Components": [
+        {
+          "__type": "MapChanger",
+          "__guid": "3d2da789-07f8-47e4-bba8-d320815c3383",
+          "MapInstance": {
+            "_type": "component",
+            "component_id": "acafa532-21f5-42dc-8835-8ca107535c5a",
+            "go": "d7ee1c1d-3fe8-4de8-b780-0359e9f384ce",
+            "component_type": "MapInstance"
+          }
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -177,7 +259,7 @@
   },
   "Title": "noclipmain",
   "Description": "",
-  "LastSaved": "2024-06-13T15:08:33.7448562-04:00",
+  "LastSaved": "2024-06-13T20:35:56.0630303-04:00",
   "ResourceVersion": 1,
   "__references": [],
   "__version": 1

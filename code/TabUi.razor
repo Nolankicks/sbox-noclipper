@@ -1,0 +1,41 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@inherits PanelComponent
+
+<root style="opacity: @(ShowUi ? 1 : 0)">
+	<div class="players">
+		@foreach (var player in Connection.All)
+		{
+			<div class="player">
+				<img class="avatar" texture="@AvatarTexture(player.SteamId)" />
+				@player.DisplayName
+			</div>
+		
+		}
+	</div>
+</root>
+
+@code
+{
+
+	public bool ShowUi { get; set; }
+
+	protected override void OnUpdate()
+	{
+		if (!IsProxy)
+		{
+			ShowUi = Input.Down("score");
+		}
+	}
+
+	public string AvatarTexture(ulong steamid)
+	{
+		return $"avatar:{steamid}";
+	}
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( ShowUi, Connection.All );
+}

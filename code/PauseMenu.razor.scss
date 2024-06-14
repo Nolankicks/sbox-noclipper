@@ -1,0 +1,104 @@
+PauseMenu
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.9);
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	transition: all 0.1s ease;
+	z-index: 50000000;
+	pointer-events: all;
+
+	.title
+	{
+		font-size: 25px;
+		font-family: Poppins;
+		color: #fff;
+	}
+
+	.mapselect
+	{
+		width: 90%;
+		height: 75%;
+		transition: opacity 0.1s ease;
+		color: white;
+		z-index: 10000;
+		backdrop-filter: blur(32px);
+	}
+
+	.changemapbutton
+	{
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		width: 300px;
+		height: 100px;
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 16px;
+		justify-content: center;
+		align-items: center;
+		font-size: 32px;
+		font-family: Poppins;
+		color: white;
+
+		&:hover
+		{
+			background-color: rgba(255, 255, 255, 0.2);
+			sound-in: ui.button.over;
+		}
+
+		&:active
+		{
+			background-color: rgba(255, 255, 255, 0.3);
+			sound-in: ui.button.press;
+		}
+	}
+
+	.header
+	{
+		position: absolute;
+		top: 64px;
+		font-size: 64px;
+		font-family: Poppins;
+		color: white;
+	}
+
+	.button
+	{
+		width: 300px;
+		height: 100px;
+		background-color: rgba(255, 255, 255, 0.1);
+		border-radius: 16px;
+		justify-content: center;
+		align-items: center;
+		font-size: 32px;
+		font-family: Poppins;
+		color: white;
+
+		&:hover
+		{
+			background-color: rgba(255, 255, 255, 0.2);
+			sound-in: ui.button.over;
+		}
+
+		&:active
+		{
+			background-color: rgba(255, 255, 255, 0.3);
+			sound-in: ui.button.press;
+		}
+	}
+
+	.buttonholder
+	{
+		position: absolute;
+		align-items: center;
+		gap: 32px;
+		width: 100%;
+		flex-direction: column;
+		
+	}
+}
