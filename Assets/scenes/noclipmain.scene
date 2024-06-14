@@ -184,6 +184,7 @@
             "go": "47545aa0-8e12-4bce-9257-1715c827bdc6",
             "component_type": "MapChanger"
           },
+          "MenuScene": "scenes/menu.scene",
           "ShowMapSelect": false,
           "ShowMenu": false
         }
@@ -209,8 +210,7 @@
         {
           "__type": "ChatUi",
           "__guid": "1a7d1961-1c5b-4d1c-ae2e-ed61a2701d30",
-          "chatEntries": [],
-          "MyStringValue": "Hello World!"
+          "chatEntries": []
         }
       ]
     },
@@ -259,7 +259,7 @@
   },
   "Title": "noclipmain",
   "Description": "",
-  "LastSaved": "2024-06-13T20:35:56.0630303-04:00",
+  "LastSaved": "2024-06-13T21:37:41.7986422-04:00",
   "ResourceVersion": 1,
   "__references": [],
   "__version": 1
