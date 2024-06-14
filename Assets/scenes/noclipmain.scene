@@ -55,9 +55,17 @@
             "go": "6fb55b5a-c966-4c4c-a5eb-60063efdd193",
             "component_type": "CitizenAnimationHelper"
           },
+          "Controller": {
+            "_type": "component",
+            "component_id": "13f66618-047e-4358-81c6-91970f59ac90",
+            "go": "1b881c2e-9dd0-4e13-b14e-7e7f8aced716",
+            "component_type": "CharacterController"
+          },
           "DistanceFromCamera": 200,
           "FirstPerson": false,
-          "MoveSpeed": 1000
+          "MoveSpeed": 1000,
+          "NoClipping": true,
+          "RunSpeed": 2000
         },
         {
           "__type": "Sandbox.Voice",
@@ -75,6 +83,18 @@
           },
           "Volume": 1,
           "WorldspacePlayback": true
+        },
+        {
+          "__type": "Sandbox.CharacterController",
+          "__guid": "13f66618-047e-4358-81c6-91970f59ac90",
+          "Acceleration": 10,
+          "Bounciness": 0.3,
+          "GroundAngle": 45,
+          "Height": 64,
+          "IgnoreLayers": "",
+          "Radius": 16,
+          "StepHeight": 18,
+          "UseCollisionRules": false
         }
       ],
       "Children": [
@@ -259,7 +279,7 @@
   },
   "Title": "noclipmain",
   "Description": "",
-  "LastSaved": "2024-06-13T21:37:41.7986422-04:00",
+  "LastSaved": "2024-06-13T22:50:46.2365932-04:00",
   "ResourceVersion": 1,
   "__references": [],
   "__version": 1

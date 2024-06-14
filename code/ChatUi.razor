@@ -44,6 +44,10 @@
 			chatEntry.Focus();
 		}
 		SetClass("open", chatEntry.HasFocus);
+		if ( chatEntries.RemoveAll( x => x.timeSince > 20.0f ) > 0 )
+        {
+            StateHasChanged();
+        }
 	}
 
 	public void SubmitChat()

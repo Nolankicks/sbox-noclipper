@@ -183,7 +183,7 @@
           "GroupName": "Other"
         },
         {
-          "Name": "Drop",
+          "Name": "Toggle Noclip",
           "KeyboardCode": "g",
           "GamepadCode": "None",
           "GroupName": "Other"
