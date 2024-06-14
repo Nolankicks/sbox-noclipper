@@ -40,6 +40,7 @@
 	public void OnSelected(Package package)
 	{
 		if (!Networking.IsHost) return;
+		ShowMapSelect = false;
 		MapChanger.LoadMap(package.FullIdent);
 	}
 
