@@ -6,13 +6,16 @@ public sealed class MapChanger : Component
 	[Property] public MapInstance MapInstance { get; set; }
 	protected override void OnEnabled()
 	{
-		MapInstance.OnMapLoaded += HandelMap;
+		if ( MapInstance.IsValid() )
+			MapInstance.OnMapLoaded += HandelMap;
 	}
 
 	protected override void OnDisabled()
 	{
-		MapInstance.OnMapLoaded -= HandelMap;
+		if ( MapInstance.IsValid() )
+			MapInstance.OnMapLoaded -= HandelMap;
 	}
+
 	[Broadcast]
 	public void LoadMap(string Indent)
 	{
@@ -26,7 +29,9 @@ public sealed class MapChanger : Component
 		foreach (var player in playerList)
 		{
 			var randomSpawnPoint = Game.Random.FromList(Scene.GetAllComponents<SpawnPoint>().ToList());
-			player.Transform.Position = randomSpawnPoint.Transform.Position;
+			
+			if (randomSpawnPoint.IsValid())
+				player.Transform.Position = randomSpawnPoint.Transform.Position;
 		}
 	}
 }
