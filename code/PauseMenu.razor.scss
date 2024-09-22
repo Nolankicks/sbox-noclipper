@@ -95,10 +95,16 @@ PauseMenu
 	.buttonholder
 	{
 		position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
 		align-items: center;
 		gap: 32px;
 		width: 100%;
 		flex-direction: column;
+        justify-content: center;
 		
 	}
 }

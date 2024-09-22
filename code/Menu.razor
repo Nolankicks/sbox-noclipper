@@ -5,9 +5,6 @@
 @inherits PanelComponent
 
 <root>
-	<div class="mapselect" style="opacity: @(ShowMapSelect ? 1 : 0)">
-		<PackageList ShowFilters="@true" Query="type:map sort:trending" OnSelected="@OnPackageSelected" Take=@(50)/>
-	</div>
 	<div class="lobbylist">
 		<div class="header">LOBBIES</div>
 		@if (Refreshing)
@@ -29,7 +26,7 @@
 		}
 		}
 	</div>
-	<div class="createlobby" onclick=@(() => ShowMapSelect = !ShowMapSelect)>CREATE LOBBY</div>
+	<div class="createlobby" onclick=@(() => Game.Overlay.ShowPackageSelector( "type:map", OnSelect ))>CREATE LOBBY</div>
 	<div class="firstperson" onclick=@SetFirstPerson>
 		@if (IsFirstPerson)
 		{
@@ -58,15 +55,21 @@
 	[Property] public SceneFile SceneFile { get; set; }
 	[Property] public bool ShowMapSelect { get; set; } = false;
 	public List<LobbyInformation> Lobbies { get; set; } = new();
-	public bool StartServer = true;
+	public bool StartServer { get; set; } = true;
 	[Property] public bool Refreshing { get; set; }
 	public bool IsFirstPerson { get; set; } = true;
 
 	protected override void OnStart()
 	{
 		_ = FetchLobbies();
-		FileSystem.Data.WriteAllText("firstperson.txt", IsFirstPerson.ToString());
-		FileSystem.Data.WriteAllText("startserver.txt", StartServer.ToString());
+
+		if ( FileSystem.Data?.ReadAllText( "firstperson.txt" ) is not null )
+		{
+			IsFirstPerson = FileSystem.Data.ReadAllText( "firstperson.txt" )?.ToBool() ?? false;
+		}
+		
+		FileSystem.Data?.WriteAllText("firstperson.txt", IsFirstPerson.ToString());
+		FileSystem.Data?.WriteAllText("startserver.txt", StartServer.ToString());
 	}
 
 
@@ -85,6 +88,13 @@
 		StartServer = !StartServer;
 		FileSystem.Data.WriteAllText("startserver.txt", StartServer.ToString());
 	}
+
+	public void OnSelect( Package package )
+	{
+		LaunchArguments.Map = package.FullIdent;
+		Game.ActiveScene.Load( SceneFile );
+	}
+
 	public async Task FetchLobbies()
 	{
 		while (true)

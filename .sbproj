@@ -1,5 +1,5 @@
 {
-  "Title": "Noclipper (walker but noclip)",
+  "Title": "Noclipper (Walker but noclip)",
   "Type": "game",
   "Org": "nolankicks",
   "Ident": "noclip_explorer",
@@ -215,6 +215,7 @@
         }
       ],
       "__guid": "4e66e610-a351-40ff-8805-4bef02db6270"
-    }
+    },
+    "MapStartupScene": "scenes/noclipmain.scene"
   }
 }

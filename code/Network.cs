@@ -7,7 +7,16 @@ public sealed class Network : Component, Component.INetworkListener
 	[Property] public bool StartServer { get; set; } = true;
 	protected override void OnAwake()
 	{
-		StartServer = FileSystem.Data.ReadAllText("startserver.txt").ToBool();
+		if ( FileSystem.Data?.ReadAllText("startserver.txt") is null )
+		{
+			StartServer = FileSystem.Data?.ReadAllText("startserver.txt")?.ToBool() ?? false;
+		}
+		else
+		{
+			StartServer = false;
+		}
+
+		
 		if (!GameNetworkSystem.IsActive && StartServer)
 		{
 			GameNetworkSystem.CreateLobby();

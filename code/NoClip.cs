@@ -15,7 +15,7 @@ public sealed class NoClip : Component
 
 	public float GetNoClipSpeed()
 	{
-		if (Input.Down("run"))
+		if ( Input.Down( "run" ) )
 		{
 			return RunSpeed;
 		}
@@ -26,7 +26,7 @@ public sealed class NoClip : Component
 	}
 	public float GetSpeed()
 	{
-		if (Input.Down("run"))
+		if ( Input.Down( "run" ) )
 		{
 			return 350;
 		}
@@ -37,10 +37,20 @@ public sealed class NoClip : Component
 	}
 	protected override void OnStart()
 	{
-		if (!IsProxy)
+		if ( !IsProxy )
 		{
-			var firstPerson = FileSystem.Data.ReadAllText("firstperson.txt").ToBool();
-			FirstPerson = firstPerson;
+			var firstPersonText = FileSystem.Data.ReadAllText( "firstperson.txt" );
+
+			if ( firstPersonText is null )
+			{
+				var firstPerson = firstPersonText?.ToBool();
+				FirstPerson = firstPerson ?? false;
+			}
+			else
+			{
+				FirstPerson = false;
+			}
+
 			EyeAngles = Transform.Rotation.Angles();
 		}
 	}
@@ -49,21 +59,21 @@ public sealed class NoClip : Component
 	protected override void OnUpdate()
 	{
 		BodyVis();
-		if (!IsProxy)
+		if ( !IsProxy )
 		{
 			Controller.Enabled = !NoClipping;
 			BuildEyeAngles();
 			Camera();
-			if (Input.Pressed("3rd/1st Person Toggle"))
+			if ( Input.Pressed( "3rd/1st Person Toggle" ) )
 			{
 				FirstPerson = !FirstPerson;
-				FileSystem.Data.WriteAllText("firstperson.txt", FirstPerson.ToString());
+				FileSystem.Data.WriteAllText( "firstperson.txt", FirstPerson.ToString() );
 			}
-			if (Input.Pressed("Toggle Noclip"))
+			if ( Input.Pressed( "Toggle Noclip" ) )
 			{
 				ToggleNoClip();
 			}
-			if (Input.Down("jump"))
+			if ( Input.Down( "jump" ) )
 			{
 				Jump();
 			}
@@ -77,10 +87,10 @@ public sealed class NoClip : Component
 	protected override void OnFixedUpdate()
 	{
 		Anims();
-		AnimationHelper.Target.Transform.Rotation = Rotation.Slerp(AnimationHelper.Target.Transform.Rotation, new Angles(0, EyeAngles.yaw, 0).ToRotation(), Time.Delta * 10);
-		if (!IsProxy)
+		AnimationHelper.Target.Transform.Rotation = Rotation.Slerp( AnimationHelper.Target.Transform.Rotation, new Angles( 0, EyeAngles.yaw, 0 ).ToRotation(), Time.Delta * 10 );
+		if ( !IsProxy )
 		{
-			if (!NoClipping)
+			if ( !NoClipping )
 			{
 				Move();
 			}
@@ -92,50 +102,50 @@ public sealed class NoClip : Component
 	}
 	public void Jump()
 	{
-		if (Controller is null) return;
-		if (Controller.IsOnGround)
+		if ( Controller is null ) return;
+		if ( Controller.IsOnGround )
 		{
-			Controller.Punch(Vector3.Up * 300);
+			Controller.Punch( Vector3.Up * 300 );
 			AnimationHelper.TriggerJump();
 		}
 	}
 	public void Move()
 	{
-		if (Controller is null) return;
+		if ( Controller is null ) return;
 		var cc = Controller;
 		var halfGrav = Scene.PhysicsWorld.Gravity * 0.5f * Time.Delta;
 		WishVelocity = Input.AnalogMove.Normal;
-		if (!WishVelocity.IsNearlyZero())
+		if ( !WishVelocity.IsNearlyZero() )
 		{
-			WishVelocity = new Angles(0, EyeAngles.yaw, 0).ToRotation() * Input.AnalogMove.Normal;
+			WishVelocity = new Angles( 0, EyeAngles.yaw, 0 ).ToRotation() * Input.AnalogMove.Normal;
 			WishVelocity *= GetSpeed();
-			WishVelocity = WishVelocity.WithZ(0);
+			WishVelocity = WishVelocity.WithZ( 0 );
 		}
-		if (!cc.IsOnGround)
+		if ( !cc.IsOnGround )
 		{
-			WishVelocity.ClampLength(50);
+			WishVelocity.ClampLength( 50 );
 		}
-		cc.ApplyFriction(Friction());
+		cc.ApplyFriction( Friction() );
 
-		if (cc.IsOnGround)
+		if ( cc.IsOnGround )
 		{
-			cc.Accelerate(WishVelocity);
-			cc.Velocity = Controller.Velocity.WithZ(0);
+			cc.Accelerate( WishVelocity );
+			cc.Velocity = Controller.Velocity.WithZ( 0 );
 		}
 		else
 		{
-			cc.Accelerate(WishVelocity);
+			cc.Accelerate( WishVelocity );
 			cc.Velocity += halfGrav;
 		}
 		cc.Move();
-		if (!cc.IsOnGround)
+		if ( !cc.IsOnGround )
 		{
-			
+
 			cc.Velocity += halfGrav;
 		}
 		else
 		{
-			cc.Velocity = cc.Velocity.WithZ(0);
+			cc.Velocity = cc.Velocity.WithZ( 0 );
 		}
 
 	}
@@ -154,9 +164,9 @@ public sealed class NoClip : Component
 	}
 	public void NoClipMove()
 	{
-		WishVelocity = new Angles(EyeAngles.pitch, EyeAngles.yaw, 0).ToRotation() * Input.AnalogMove.Normal;
+		WishVelocity = new Angles( EyeAngles.pitch, EyeAngles.yaw, 0 ).ToRotation() * Input.AnalogMove.Normal;
 		WishVelocity *= GetNoClipSpeed();
-		if (!WishVelocity.IsNearlyZero())
+		if ( !WishVelocity.IsNearlyZero() )
 		{
 			Transform.Position += WishVelocity * Time.Delta;
 		}
@@ -169,7 +179,7 @@ public sealed class NoClip : Component
 		var lookDirection = EyeAngles.ToRotation();
 		var center = Transform.Position + Vector3.Up * 64;
 		//Trace to see if the camera is inside a wall
-		if (!FirstPerson)
+		if ( !FirstPerson )
 		{
 			camera.Transform.Position = center + lookDirection.Backward * DistanceFromCamera;
 		}
@@ -178,19 +188,19 @@ public sealed class NoClip : Component
 			var targetPos = Transform.Position + Vector3.Up * 64;
 			camera.Transform.Position = targetPos;
 		}
-	
+
 		camera.Transform.Rotation = lookDirection;
-		
+
 	}
 
 	public void BodyVis()
 	{
 		var target = AnimationHelper.Target;
-		if (FirstPerson)
+		if ( FirstPerson )
 		{
 			var bodyVis = IsProxy ? ModelRenderer.ShadowRenderType.On : ModelRenderer.ShadowRenderType.ShadowsOnly;
 			target.RenderType = bodyVis;
-			foreach (var child in target.Components.GetAll<SkinnedModelRenderer>(FindMode.InDescendants))
+			foreach ( var child in target.Components.GetAll<SkinnedModelRenderer>( FindMode.InDescendants ) )
 			{
 				child.RenderType = bodyVis;
 			}
@@ -198,7 +208,7 @@ public sealed class NoClip : Component
 		else
 		{
 			target.RenderType = ModelRenderer.ShadowRenderType.On;
-			foreach (var child in target.Components.GetAll<SkinnedModelRenderer>(FindMode.InDescendants))
+			foreach ( var child in target.Components.GetAll<SkinnedModelRenderer>( FindMode.InDescendants ) )
 			{
 				child.RenderType = ModelRenderer.ShadowRenderType.On;
 			}
@@ -207,16 +217,16 @@ public sealed class NoClip : Component
 
 	public void Anims()
 	{
-		if (NoClipping)
+		if ( NoClipping )
 		{
-			AnimationHelper.WithVelocity(WishVelocity);
+			AnimationHelper.WithVelocity( WishVelocity );
 		}
 		else
 		{
-			AnimationHelper.WithVelocity(Controller.Velocity);
+			AnimationHelper.WithVelocity( Controller.Velocity );
 			AnimationHelper.IsGrounded = Controller.IsOnGround;
 		}
-		AnimationHelper.WithWishVelocity(WishVelocity);
+		AnimationHelper.WithWishVelocity( WishVelocity );
 		AnimationHelper.IsNoclipping = NoClipping;
 	}
 }
